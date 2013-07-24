@@ -5,8 +5,14 @@ var filePath;
 var file;
 var fs = require('fs');
 var aj= require('./ajax.js');
-var yelp=require('./messingwithyelp.js');
-
+var scraping=require('./scraping')
+var yelphelpers=require('./messingwithyelp.js');
+var yelp = require("yelp").createClient({
+  consumer_key: "3Y0PsxdHhARDWieGwR9-0g", 
+  consumer_secret: "3TdP-8uXJXXRDTOEngtf-AekJ4k",
+  token: "fp8z5lJa5i2pG2Tk8TKeZhQbW8yf_jU2",
+  token_secret: "9vzJzpLdFKnB4Ccg-emqM-X6JSM"
+});
 
 exports.handleRequest = function (req, res) {
   var fs = require('fs');
@@ -22,11 +28,15 @@ exports.handleRequest = function (req, res) {
       body=JSON.parse(body);
       console.log('end of request, the body is',body.address);
 
-      yelp.yelpwithparams(body.address);
-
-      res.writeHead(302,{'Content-Type':'text/html'});
-      res.end();
-      console.log('ending post');
+      yelp.search({term: body.address, offset:'20', sort:'2',limit:"20",location: "San Francisco"}, function(error, data) {
+        res.writeHead(200,{'Content-Type':'text/html'});
+        menuurls = yelphelpers.processYelpData(data);
+        console.log(menuurls);
+        scraping.findpopulardish(menuurls,function(data){
+          console.log('data',data)
+        });
+        res.end(JSON.stringify(data));
+      });
     });
   }
   else if (req.method === 'GET') {

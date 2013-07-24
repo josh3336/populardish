@@ -12,7 +12,7 @@ handle_posts=function(posted){
       type: 'POST',
       data: url,
       success: function(data){
-        console.log('Message submitted to server.');
+        console.log('Message submitted to server.', data);
       },
       error: function(data) {
         console.log('Ajax POST request failed');
