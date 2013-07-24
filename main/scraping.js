@@ -74,7 +74,9 @@ var finddish = function(){
         // console.log('resp',resp)
         // console.log('body',body)
           $=cheerio.load(body);
-          console.log($('.popular-item').find('a')['0'].attribs['href'])
+        //allows you to get all html
+        // console.log($.html())
+
        }
       });
 }
