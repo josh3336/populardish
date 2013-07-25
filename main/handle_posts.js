@@ -12,7 +12,19 @@ handle_posts=function(posted){
       type: 'POST',
       data: url,
       success: function(data){
+
         console.log('Message submitted to server.', data);
+        dishes=JSON.parse(data);
+        console.log('dishes',dishes.length)
+        $('#main').html('')
+        for (var i = 0 ; i < dishes.length; i++){
+          console.log('dishes',dishes[i].url)
+          $('#main').append("<div><a href=>"+dishes[i].url+"</a></div>");
+          $('#main').append("<img src='"+dishes[i].pic+"'height='100' width='100'>")
+        }
+         // $('.main').append(data.map(function(message) {
+         //  return "<div class='message'>"+dish.url+"</div>";
+
       },
       error: function(data) {
         console.log('Ajax POST request failed');

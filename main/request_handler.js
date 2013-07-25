@@ -34,8 +34,9 @@ exports.handleRequest = function (req, res) {
         console.log(menuurls);
         scraping.findpopulardish(menuurls,function(data){
           console.log('data',data)
+          res.end(JSON.stringify(data));
         });
-        res.end(JSON.stringify(data));
+      
       });
     });
   }

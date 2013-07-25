@@ -28,11 +28,14 @@ exports.findpopulardish = function(arroflinks,cb){
           //console.log(arroflinks[i],resp.statusCode);
           if (resp.statusCode!=404){
             //console.log('about to insert dish for url',arroflinks[i]);
-            populardishes.push($('.popular-item').find('a')['0'].attribs['href']);
+            dishurl=($('.popular-item').find('a')['0'].attribs['href']);
+            pic=($('.photo-box-img')[0].attribs.src);
+            dishinfo={"url":url,
+                  "pic": pic};
+            populardishes.push(dishinfo);
           }
-          console.log(response)
           if(response===arroflinks.length){
-            cb(populardishes)
+            cb(populardishes);
           }
 
         }     
@@ -76,9 +79,11 @@ var finddish = function(){
           $=cheerio.load(body);
         //allows you to get all html
         // console.log($.html())
-
+         // console.log($('.popular-items-container').html())
+          console.log($('.photo-box-img')[0].attribs.src)
+          //console.log($.html())
        }
       });
 }
 
-finddish()
+console.log(finddish())
