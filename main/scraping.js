@@ -2,7 +2,7 @@ var request = require('request');
 var cheerio = require('cheerio');
 
 //var url='http://www.yelp.com/menu/paulines-pizza-and-wine-bar-san-francisco-3'
-var url="http://www.yelp.com/menu/arinell-pizza-san-francisco";
+var url="http://www.yelp.com/menu/zabb-cuisine-san-francisco";
 
 
 /**
@@ -29,11 +29,12 @@ exports.findpopulardish = function(arroflinks,cb){
           if (resp.statusCode!=404){
             //console.log('about to insert dish for url',arroflinks[i]);
             dishurl=($('.popular-item').find('a')['0'].attribs['href']);
-            pic=($('.photo-box-img')[0].attribs.src);
+            pic=($('.popular-item').find('.photo-box-img')[0].attribs.src)
             dishinfo={"url":url,
                   "pic": pic};
             populardishes.push(dishinfo);
           }
+          console.log(response);
           if(response===arroflinks.length){
             cb(populardishes);
           }
@@ -80,7 +81,7 @@ var finddish = function(){
         //allows you to get all html
         // console.log($.html())
          // console.log($('.popular-items-container').html())
-          console.log($('.photo-box-img')[0].attribs.src)
+          console.log($('.popular-item').find('.photo-box-img')[0].attribs.src)
           //console.log($.html())
        }
       });
