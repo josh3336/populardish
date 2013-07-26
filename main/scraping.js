@@ -2,8 +2,7 @@ var request = require('request');
 var cheerio = require('cheerio');
 
 //var url='http://www.yelp.com/menu/paulines-pizza-and-wine-bar-san-francisco-3'
-var url="http://www.yelp.com/menu/zabb-cuisine-san-francisco";
-
+var url="http://www.yelp.com/menu/zero-zero-san-francisco";
 
 /**
 *takes an array of menu urls , iterates through the urls finding the popular dish info and pushes 
@@ -28,13 +27,32 @@ exports.findpopulardish = function(arroflinks,cb){
           //console.log(arroflinks[i],resp.statusCode);
           if (resp.statusCode!=404){
             //console.log('about to insert dish for url',arroflinks[i]);
-            dishurl=($('.popular-item').find('a')['0'].attribs['href']);
-            pic=($('.popular-item').find('.photo-box-img')[0].attribs.src)
-            dishinfo={"url":url,
-                  "pic": pic};
-            populardishes.push(dishinfo);
+            console.log(url);
+            
+            var popularitem=$('.popular-item').find('a')['0'];
+            //check if popular items exist
+            if (popularitem!=undefined){
+              dishurl="http://www.yelp.com"+popularitem.attribs['href'];
+              dishurlarr=dishurl.split('/');
+              dish=dishurlarr[dishurlarr.length-1];
+              console.log('dish:',dish)
+              try{
+                var description=$('h3').find('a').filter(function(index){return $(this).text().toLowerCase()===dish})[0].parent.next.next.children[0].data.replace(/(\r\n|\n|\r)/gm,"");
+              }
+              catch(err){
+                console.log('description not working for: ',dishurl)
+              }
+              if (description===undefined){
+                description=''
+              }
+              pic=($('.popular-item').find('.photo-box-img')[0].attribs.src);
+              dishinfo={"url":dishurl,
+                      "name": dish,
+                    "pic": pic,
+                    "description": null||description};
+              populardishes.push(dishinfo);
+            }
           }
-          console.log(response);
           if(response===arroflinks.length){
             cb(populardishes);
           }
@@ -78,13 +96,21 @@ var finddish = function(){
         // console.log('resp',resp)
         // console.log('body',body)
           $=cheerio.load(body);
+
+          var stored=$('h3').find('a').filter(function(index){return $(this).text().toLowerCase()==="castro"})[0].parent.next.next.children[0].data.replace(/(\r\n|\n|\r)/gm,"");
+          console.log(stored)
+          //console.log($('h3').find('a').attribs['href']);
         //allows you to get all html
         // console.log($.html())
+        //finds popular item
+         // urlarr=($('.popular-item').find('a')['0'].attribs['href']).split('/')
+         // console.log(urlarr[urlarr.length-1])
+         
          // console.log($('.popular-items-container').html())
-          console.log($('.popular-item').find('.photo-box-img')[0].attribs.src)
+         // console.log($('.popular-item').find('.photo-box-img')[0].attribs.src)
           //console.log($.html())
        }
       });
 }
 
-console.log(finddish())
+finddish()

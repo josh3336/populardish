@@ -1,3 +1,6 @@
 Urls
   http://www.yelp.com/biz/arinell-pizza-san-francisco is format for restuaurant
   http://www.yelp.com/biz/arinell-pizza-san-francisco is format for menu
+
+Find link by text
+  $('h3').find('a').filter(function(index){return $(this).text()===""})
