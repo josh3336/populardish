@@ -4,3 +4,7 @@ Urls
 
 Find link by text
   $('h3').find('a').filter(function(index){return $(this).text()===""})
+
+
+html5 positions
+alert(position.coords.latitude + ', ' + position.coords.longitude);

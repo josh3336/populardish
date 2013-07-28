@@ -32,7 +32,7 @@ exports.handleRequest = function (req, res) {
         res.writeHead(200,{'Content-Type':'text/html'});
         menuurls = yelphelpers.processYelpData(data);
         console.log(menuurls);
-        scraping.findpopulardish(menuurls,function(data){
+        scraping.findPopularDish(menuurls,function(data){
           console.log('data',data)
           res.end(JSON.stringify(data));
         });
@@ -46,6 +46,12 @@ exports.handleRequest = function (req, res) {
       file=fs.readFileSync(filePath);
       console.log('need to serve index');
       res.writeHead(200,{'Content-Type':'text/html'});
+      res.end(file);
+    }
+    if(req.url === '/google'){
+      filePath = path.join(__dirname, "testing/googlemaps.html");
+      file = fs.readFileSync(filePath);
+      res.writeHead(200,{'Content-Type' : 'text/html'});
       res.end(file);
     }
     if(req.url==='/handle_posts.js'){

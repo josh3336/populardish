@@ -8,7 +8,7 @@ var yelp = require("yelp").createClient({
 exports.yelpwithparams= function(term){
   yelp.search({term: term, offset:'20', sort:'2',limit:"20",location: "San Francisco"}, function(error, data) {
     console.log(error);
-    //console.log('***',data.businesses)
+    console.log('***',data.businesses)
     sendYelpResponse(data.businesses);
   });
 }
@@ -19,11 +19,18 @@ exports.yelpwithparams= function(term){
 
 exports.processYelpData = function(data) {
   //grab urls of restaurants in results then parse them and check to see if they have a menu page
-  var menustocheck=[]
-  for(key in data.businesses){
-    url=data.businesses[key].url
-    menustocheck.push(url.slice(0,20).concat('menu').concat(url.slice(23,url.length)))
+  var menustocheck=[];
+  console.log(data);
+  for(var key in data.businesses){
+    url=data.businesses[key].url;
+    fulladdress=data.businesses[key].location.display_address;
+    fulladdress.splice(1,2);
+    console.log(fulladdress.join(','));
+
+    menustocheck.push(url.slice(0,20).concat('menu').concat(url.slice(23,url.length)));
   }
   //console.log(menustocheck);
-  return menustocheck
-}
+  return menustocheck;
+};
+
+

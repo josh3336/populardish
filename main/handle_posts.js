@@ -21,7 +21,9 @@ handle_posts=function(posted){
           console.log('dishes',dishes[i].url)
           $('#main').append("<div><a href='"+dishes[i].url+"'>get menu</a></div>");
           $('#main').append("<div>'"+dishes[i].name+"'</div>");
+          $('#main').append("<div>'"+dishes[i].description+"'</div>");
           $('#main').append("<img src='"+dishes[i].pic+"'height='100' width='100'>")
+
 
         }
          // $('.main').append(data.map(function(message) {
